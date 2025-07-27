@@ -25,5 +25,18 @@ async function bootstrap() {
   app.useWebSocketAdapter(new IoAdapter(app));
 
   await app.listen(3333);
+
+  setInterval(
+    () => {
+      const used = process.memoryUsage().heapUsed / 1024 / 1024;
+      console.log(`🧠 Memória usada: ${Math.round(used * 100) / 100} MB`);
+
+      if (global.gc) {
+        global.gc();
+        console.log('🧹 GC forçado');
+      }
+    },
+    1 * 60 * 1000,
+  ); // 1 minute
 }
 void bootstrap();
