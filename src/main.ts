@@ -3,6 +3,14 @@ import { ValidationPipe } from '@nestjs/common';
 import { AppModule } from './app.module';
 import { IoAdapter } from '@nestjs/platform-socket.io';
 
+process.on('uncaughtException', (err) => {
+  console.error('❌ Erro nao tratado:', err);
+});
+
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('❌ Erro nao tratado:', reason, promise);
+});
+
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
@@ -30,13 +38,8 @@ async function bootstrap() {
     () => {
       const used = process.memoryUsage().heapUsed / 1024 / 1024;
       console.log(`🧠 Memória usada: ${Math.round(used * 100) / 100} MB`);
-
-      if (global.gc) {
-        global.gc();
-        console.log('🧹 GC forçado');
-      }
     },
     2 * 60 * 1000,
-  ); // 2 minute
+  );
 }
 void bootstrap();
