@@ -36,7 +36,7 @@ async function bootstrap() {
         console.log('🧹 GC forçado');
       }
     },
-    1 * 60 * 1000,
-  ); // 1 minute
+    2 * 60 * 1000,
+  ); // 2 minute
 }
 void bootstrap();
