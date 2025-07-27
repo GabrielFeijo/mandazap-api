@@ -13,8 +13,9 @@ import { PrismaService } from 'src/prisma/prisma.service';
 
 @WebSocketGateway({
   cors: {
-    origin:
-      process.env.CORS_ALLOWED_ORIGINS?.split(',') || 'http://localhost:5173',
+    origin: (process.env.CORS_ALLOWED_ORIGINS ?? 'http://localhost:5173').split(
+      ',',
+    ),
   },
 })
 export class WhatsAppGateway
