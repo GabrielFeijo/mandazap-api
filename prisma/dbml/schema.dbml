@@ -1,0 +1,109 @@
+//// ------------------------------------------------------
+//// THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+//// ------------------------------------------------------
+
+Table users {
+  id String [pk]
+  email String [unique, not null]
+  name String [not null]
+  password String
+  provider String [not null, default: 'local']
+  providerId String
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  instances whatsapp_instances [not null]
+}
+
+Table whatsapp_instances {
+  id String [pk]
+  name String [not null]
+  phoneNumber String
+  status String [not null, default: 'disconnected']
+  qrCode String
+  userId String [not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  user users [not null]
+  messages messages [not null]
+  contacts contacts [not null]
+  medias medias [not null]
+  auth_sessions auth_sessions [not null]
+}
+
+Table contacts {
+  id String [pk]
+  jid String [not null]
+  name String
+  number String [not null]
+  profilePic String
+  instanceId String [not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  instance whatsapp_instances [not null]
+  messages messages [not null]
+
+  indexes {
+    (jid, instanceId) [unique]
+  }
+}
+
+Table messages {
+  id String [pk]
+  messageId String [not null]
+  fromMe Boolean [not null]
+  text String
+  type String [not null]
+  timestamp DateTime [not null]
+  status String
+  contactId String [not null]
+  instanceId String [not null]
+  mediaId String
+  createdAt DateTime [default: `now()`, not null]
+  contact contacts [not null]
+  instance whatsapp_instances [not null]
+  media medias
+
+  indexes {
+    (messageId, instanceId) [unique]
+  }
+}
+
+Table medias {
+  id String [pk]
+  filename String [not null]
+  mimetype String [not null]
+  size Int [not null]
+  path String [not null]
+  instanceId String [not null]
+  createdAt DateTime [default: `now()`, not null]
+  instance whatsapp_instances [not null]
+  messages messages [not null]
+}
+
+Table auth_sessions {
+  id String [pk]
+  instanceId String [not null]
+  keyId String [not null]
+  keyData String [not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  instance whatsapp_instances [not null]
+
+  indexes {
+    (instanceId, keyId) [unique]
+  }
+}
+
+Ref: whatsapp_instances.userId > users.id [delete: Cascade]
+
+Ref: contacts.instanceId > whatsapp_instances.id [delete: Cascade]
+
+Ref: messages.contactId > contacts.id [delete: Cascade]
+
+Ref: messages.instanceId > whatsapp_instances.id [delete: Cascade]
+
+Ref: messages.mediaId > medias.id
+
+Ref: medias.instanceId > whatsapp_instances.id [delete: Cascade]
+
+Ref: auth_sessions.instanceId > whatsapp_instances.id [delete: Cascade]
