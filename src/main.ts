@@ -17,7 +17,7 @@ async function bootstrap() {
   app.useWebSocketAdapter(new IoAdapter(app));
   app.enableCors({
     origin:
-      process.env.CORS_ALLOWED_ORIGINS?.split(',') || 'http://localhost:3000',
+      process.env.CORS_ALLOWED_ORIGINS?.split(',') || 'http://localhost:5173',
   });
 
   await app.listen(3333);

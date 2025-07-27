@@ -14,7 +14,7 @@ import { PrismaService } from 'src/prisma/prisma.service';
 @WebSocketGateway({
   cors: {
     origin:
-      process.env.CORS_ALLOWED_ORIGINS?.split(',') || 'http://localhost:3000',
+      process.env.CORS_ALLOWED_ORIGINS?.split(',') || 'http://localhost:5173',
   },
 })
 export class WhatsAppGateway
@@ -55,6 +55,12 @@ export class WhatsAppGateway
         client.disconnect();
         return;
       }
+
+      if (!this.userSockets.has(user.id)) {
+        this.userSockets.set(user.id, new Set());
+      }
+
+      this.userSockets.get(user.id)?.add(client.id);
     } catch (error) {
       console.log('JWT inválido:', error);
       client.disconnect();
@@ -71,19 +77,6 @@ export class WhatsAppGateway
         break;
       }
     }
-  }
-
-  @SubscribeMessage('authenticate')
-  handleAuthenticate(
-    @MessageBody() data: { userId: string },
-    @ConnectedSocket() client: Socket,
-  ) {
-    if (!this.userSockets.has(data.userId)) {
-      this.userSockets.set(data.userId, new Set());
-    }
-
-    this.userSockets.get(data.userId)?.add(client.id);
-    client.emit('authenticated', { success: true });
   }
 
   emitToUser(userId: string, event: string, data: Record<string, unknown>) {
