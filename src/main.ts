@@ -14,12 +14,15 @@ async function bootstrap() {
     }),
   );
 
-  app.useWebSocketAdapter(new IoAdapter(app));
   app.enableCors({
     origin: (process.env.CORS_ALLOWED_ORIGINS ?? 'http://localhost:5173').split(
       ',',
     ),
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    credentials: true,
   });
+
+  app.useWebSocketAdapter(new IoAdapter(app));
 
   await app.listen(3333);
 }
