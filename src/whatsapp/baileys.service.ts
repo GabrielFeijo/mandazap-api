@@ -125,11 +125,11 @@ export class BaileysService implements OnModuleInit {
 
   async disconnectInstance(userId: string, instanceId: string) {
     const sock = this.instances.get(instanceId);
+
     if (sock) {
       await sock.logout?.();
       await sock.ws?.close();
       sock.end(new Error('Desconectado pelo usuário'));
-      this.instances.delete(instanceId);
     }
 
     this.whatsappGateway.emitToUser(userId, 'qr-code', {
@@ -154,6 +154,8 @@ export class BaileysService implements OnModuleInit {
       instanceId,
       status: 'disconnected',
     });
+
+    this.instances.delete(instanceId);
 
     return { message: 'Instância desconectada' };
   }
