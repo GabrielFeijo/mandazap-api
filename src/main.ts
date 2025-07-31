@@ -4,11 +4,11 @@ import { AppModule } from './app.module';
 import { IoAdapter } from '@nestjs/platform-socket.io';
 
 process.on('uncaughtException', (err) => {
-  console.error('❌ Erro nao tratado:', err);
+  console.error('❌', err);
 });
 
 process.on('unhandledRejection', (reason, promise) => {
-  console.error('❌ Erro nao tratado:', reason, promise);
+  console.error('❌', reason, promise);
 });
 
 async function bootstrap() {
@@ -33,13 +33,5 @@ async function bootstrap() {
   app.useWebSocketAdapter(new IoAdapter(app));
 
   await app.listen(3333);
-
-  setInterval(
-    () => {
-      const used = process.memoryUsage().heapUsed / 1024 / 1024;
-      console.log(`🧠 Memória usada: ${Math.round(used * 100) / 100} MB`);
-    },
-    2 * 60 * 1000,
-  );
 }
 void bootstrap();
