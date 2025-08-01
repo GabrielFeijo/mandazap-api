@@ -13,6 +13,7 @@ import { PrismaService } from 'src/prisma/prisma.service';
 
 @WebSocketGateway({
   cors: {
+    credentials: true,
     origin: (process.env.CORS_ALLOWED_ORIGINS ?? 'http://localhost:5173').split(
       ',',
     ),
@@ -60,6 +61,8 @@ export class WhatsAppGateway
       }
 
       this.userSockets.get(user.id)?.add(client.id);
+
+      console.log('Conectado:', user.email);
     } catch (error) {
       console.log('JWT inválido:', error);
       client.disconnect();
@@ -83,6 +86,7 @@ export class WhatsAppGateway
     if (!socketIds) return;
 
     for (const socketId of socketIds) {
+      console.log('Enviando para', socketId);
       this.server.to(socketId).emit(event, data);
     }
   }
