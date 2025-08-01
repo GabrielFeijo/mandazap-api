@@ -58,6 +58,8 @@ export class BaileysService implements OnModuleInit {
   }
 
   async createInstance(instanceId: string, userId: string) {
+    console.log('Criando instância...');
+
     const { state, saveCreds } = await useMongoAuthState({ instanceId });
     const { version } = await fetchLatestBaileysVersion();
     const logger = pino({
@@ -66,6 +68,8 @@ export class BaileysService implements OnModuleInit {
         instanceId,
       },
     });
+
+    console.log('Instância criada com sucesso.');
 
     const sock = makeWASocket({
       version,

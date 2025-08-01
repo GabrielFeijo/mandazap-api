@@ -61,8 +61,6 @@ export class WhatsAppGateway
       }
 
       this.userSockets.get(user.id)?.add(client.id);
-
-      console.log('Conectado:', user.email);
     } catch (error) {
       console.log('JWT inválido:', error);
       client.disconnect();
@@ -86,7 +84,6 @@ export class WhatsAppGateway
     if (!socketIds) return;
 
     for (const socketId of socketIds) {
-      console.log('Enviando para', socketId, event, data);
       this.server.to(socketId).emit(event, data);
     }
   }
