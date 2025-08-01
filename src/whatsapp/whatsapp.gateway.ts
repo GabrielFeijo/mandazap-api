@@ -86,7 +86,7 @@ export class WhatsAppGateway
     if (!socketIds) return;
 
     for (const socketId of socketIds) {
-      console.log('Enviando para', socketId);
+      console.log('Enviando para', socketId, event, data);
       this.server.to(socketId).emit(event, data);
     }
   }
