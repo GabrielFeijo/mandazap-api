@@ -27,7 +27,7 @@ export class BaileysService implements OnModuleInit {
   ) {}
 
   async onModuleInit() {
-    await this.restoreInstancesOnStartup();
+    // await this.restoreInstancesOnStartup();
   }
 
   async restoreInstancesOnStartup() {
