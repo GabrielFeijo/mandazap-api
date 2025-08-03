@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UsersService } from '../users/users.service';
 import * as bcrypt from 'bcryptjs';
@@ -41,27 +41,18 @@ export class AuthService {
   }
 
   async register(email: string, password: string, name: string) {
+    const existingUser = await this.usersService.findByEmail(email);
+
+    if (existingUser) {
+      throw new ConflictException('Email already exists');
+    }
+
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = await this.usersService.create({
       email,
       password: hashedPassword,
       name,
     });
-
-    return this.login(user);
-  }
-
-  async oauthLogin(profile: User) {
-    let user = await this.usersService.findByEmail(profile.email);
-
-    if (!user) {
-      user = await this.usersService.create({
-        email: profile.email,
-        name: profile.name,
-        provider: profile.provider,
-        providerId: profile.id,
-      });
-    }
 
     return this.login(user);
   }

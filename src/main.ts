@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 import { AppModule } from './app.module';
 import { IoAdapter } from '@nestjs/platform-socket.io';
+import { setupSwagger } from './setupSwagger';
 
 process.on('uncaughtException', (err) => {
   console.error('❌', err);
@@ -31,6 +32,8 @@ async function bootstrap() {
   );
 
   app.useWebSocketAdapter(new IoAdapter(app));
+
+  setupSwagger(app);
 
   await app.listen(process.env.PORT || 3333);
 }
