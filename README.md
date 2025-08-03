@@ -42,6 +42,10 @@
    # Configurações do Servidor
    PORT=3333
    CORS_ALLOWED_ORIGINS="http://localhost:5173,http://localhost:3000"
+
+   # Configurações do Swagger (Documentação da API) - OPCIONAL
+   SWAGGER_USER="admin"
+   SWAGGER_PASSWORD="sua-senha-swagger-segura"
    ```
 
 4. **Configuração do Banco de Dados**
@@ -67,19 +71,37 @@
 
 ## 📚 Documentação da API
 
+### Acesso à Documentação Swagger
+
 Com a aplicação em execução, acesse a documentação interativa da API em:
 
 ```
-http://localhost:3333/api
+http://localhost:3333/docs
 ```
 
-### Autenticação
+### 🔐 Autenticação da Documentação
 
-A maioria dos endpoints requer autenticação JWT. Inclua o token no cabeçalho `Authorization`:
+A documentação possui proteção por autenticação básica:
 
-```
-Authorization: Bearer <seu-token-jwt>
-```
+| Ambiente               | Acesso    | Credenciais                 |
+| ---------------------- | --------- | --------------------------- |
+| **Development**        | Livre     | Sem autenticação            |
+| **Production/Staging** | Protegido | Usuário e senha necessários |
+
+**Credenciais padrão:**
+
+- **Usuário**: `admin` (ou valor da variável `SWAGGER_USER`)
+- **Senha**: `admin` (ou valor da variável `SWAGGER_PASSWORD`)
+
+### 🔑 Autenticação JWT na Documentação
+
+Para testar endpoints protegidos:
+
+1. **Faça login** através do endpoint `/auth/login`
+2. **Copie o token** JWT retornado
+3. **Clique no botão "Authorize"** no topo da página
+4. **Cole o token**
+5. **Teste os endpoints** protegidos normalmente
 
 ## 🔧 Endpoints da API
 

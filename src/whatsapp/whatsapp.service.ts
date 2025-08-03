@@ -1,8 +1,4 @@
-import {
-  Injectable,
-  NotFoundException,
-  ForbiddenException,
-} from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { BaileysService } from './baileys.service';
 
@@ -43,15 +39,11 @@ export class WhatsAppService {
 
   async getInstanceById(instanceId: string, userId: string) {
     const instance = await this.prisma.whatsAppInstance.findUnique({
-      where: { id: instanceId },
+      where: { id: instanceId, userId },
     });
 
     if (!instance) {
       throw new NotFoundException('Instância não encontrada');
-    }
-
-    if (instance.userId !== userId) {
-      throw new ForbiddenException('Acesso negado a esta instância');
     }
 
     return instance;
