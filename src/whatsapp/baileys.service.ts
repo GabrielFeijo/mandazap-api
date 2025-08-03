@@ -18,7 +18,6 @@ import { useMongoAuthState } from './mongo-auth-state';
 
 @Injectable()
 export class BaileysService implements OnModuleInit {
-  private readonly logger = pino({ level: 'error' });
   private instances = new Map<string, WASocket>();
 
   constructor(
