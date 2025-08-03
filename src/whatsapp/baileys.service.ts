@@ -345,8 +345,7 @@ export class BaileysService implements OnModuleInit {
         data: messageData,
       });
     } catch (error) {
-      console.log(error);
-      this.logger.error('Erro ao salvar mensagem:', error);
+      console.error(error);
     }
   }
 
@@ -374,7 +373,7 @@ export class BaileysService implements OnModuleInit {
         },
       });
     } catch (error) {
-      this.logger.error('Erro ao salvar contato:', error);
+      console.error(error);
     }
   }
 }
