@@ -19,7 +19,7 @@
 1. **Clone o repositório**
 
    ```bash
-   git clone https://github.com/GabrielFeijo/mandazap-api
+   git clone https://github.com/GabrielFeijo/mandazap-api.git
    cd manda-zap-api
    ```
 
@@ -201,5 +201,9 @@ npm run prisma:migrate  # Executar migrações
 npm run lint            # Rodar ESLint
 npm run format          # Formatar com Prettier
 ```
+
+---
+
+## 🛠️ Feito utilizando
 
 - <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-plain.svg" width="40" height="40"/>ㅤ<img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nestjs/nestjs-original.svg" width="40" height="40"/><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mongodb/mongodb-original.svg" width="40" height="40"/><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/swagger/swagger-original.svg" width="40" height="40" />
