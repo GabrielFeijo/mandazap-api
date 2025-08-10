@@ -4,7 +4,6 @@ import { WhatsAppGateway } from './whatsapp.gateway';
 import { Boom } from '@hapi/boom';
 import pino from 'pino';
 import makeWASocket, {
-  Browsers,
   ConnectionState,
   Contact,
   DisconnectReason,
@@ -73,9 +72,7 @@ export class BaileysService implements OnModuleInit {
         creds: state.creds,
         keys: makeCacheableSignalKeyStore(state.keys, logger),
       },
-      browser: Browsers.windows('Chrome'),
       syncFullHistory: true,
-      shouldSyncHistoryMessage: () => true,
       generateHighQualityLinkPreview: true,
     });
 
